@@ -1,13 +1,9 @@
 ﻿
-using System;
 using System.Text;
 using System.Text.Json;
-using Amazon;
 using Amazon.SQS;
 using Amazon.SQS.Model;
 using FrameClass;
-
-using static System.Formats.Asn1.AsnWriter;
 
 namespace CalculatorFunctions;
 //hello
@@ -20,7 +16,7 @@ public class Calculator : ICalculator
     private const string ScoreQueueUrl = "http://localhost:4566/000000000000/ScoreQueue";
 
     private readonly AmazonSQSClient sqsClient;
-    private string ScoreString { get; set; }
+    private string ScoreString { get; set; } = string.Empty;
 
     public Calculator()
     {

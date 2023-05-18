@@ -4,7 +4,7 @@ using Amazon.SQS.Model;
 namespace PresenterFunctions;
 public class Presenter : IPresenter
 {
-    private string ScoreString { get; set; }
+    private string ScoreString { get; set; } = string.Empty;
 
     // Setting Local Stack Queue URL
     private const string ScoreQueueUrl = "http://localhost:4566/000000000000/ScoreQueue";

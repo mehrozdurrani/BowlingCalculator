@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  calculatorservice:
+    image: ${DOCKER_REGISTRY-}calculatorservice
+    build:
+      context: .
+      dockerfile: CalculatorService/Dockerfile
+
+  presenterservice:
+    image: ${DOCKER_REGISTRY-}presenterservice
+    build:
+      context: .
+      dockerfile: PresenterService/Dockerfile
+
+
+  rollsservice:
+    image: ${DOCKER_REGISTRY-}rollsservice
+    build:
+      context: .
+      dockerfile: RollsService/Dockerfile
+

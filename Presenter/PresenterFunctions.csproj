@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="AWSSDK.SQS" Version="3.7.102.5" />
+    <PackageReference Include="WBPA.Amazon.SimpleQueueService" Version="1.0.2018.2530" />
+  </ItemGroup>
+</Project>

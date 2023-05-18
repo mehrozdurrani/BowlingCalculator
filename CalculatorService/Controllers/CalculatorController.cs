@@ -8,6 +8,8 @@ namespace CalculatorService.Controllers;
 public class CalculatorController : ControllerBase
 {
     private readonly ILogger<CalculatorController> _logger;
+
+    // Dependency Injection
     private readonly ICalculator _calculator;
 
     public CalculatorController(ILogger<CalculatorController> logger, ICalculator calculator)
@@ -22,7 +24,11 @@ public class CalculatorController : ControllerBase
     [HttpGet(Name = "calculate")]
     public int Get()
     {
-
+        /*
+         Using simple console application instead of API
+         should have been an better approach. It serves the
+         pupose so I decided to keep it this way.
+         */
         return 0;
     }
 }

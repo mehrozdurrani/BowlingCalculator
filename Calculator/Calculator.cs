@@ -13,6 +13,7 @@ public class Calculator : ICalculator
     const int TOTAL_FRAMES = 10;
     const int MAX_SCORE = 10;
 
+    // Local Stack SQS Queues
     private const string RollQueueUrl = "http://localhost:4566/000000000000/RollsQueue";
     private const string ScoreQueueUrl = "http://localhost:4566/000000000000/ScoreQueue";
 
@@ -23,12 +24,20 @@ public class Calculator : ICalculator
     {
         sqsClient = new AmazonSQSClient(new AmazonSQSConfig
         {
-            ServiceURL = "http://localhost:4566" // Replace with your LocalStack SQS service URL
+            // LocalStack SQS service URL
+            ServiceURL = "http://localhost:4566"
         });
     }
 
+    // Listening to 'RollsQueue' for New Messages
     public void StartListening()
     {
+        /*
+         While(true) is not the most efficient approach but it serves the purpose.
+        Alternative way is to handle events in AWS Lambda, so due to lack of
+        time I have used this approach         
+         */
+
         while (true)
         {
             var receiveMessageRequest = new ReceiveMessageRequest
@@ -47,9 +56,9 @@ public class Calculator : ICalculator
 
                     // Score Calculation
                     CalculateScore(frames);
+
                     // Publishing Result to the Score Queue
                     PublishResult(ScoreString);
-
                     sqsClient.DeleteMessageAsync(new DeleteMessageRequest(RollQueueUrl, message.ReceiptHandle)).GetAwaiter().GetResult();
                 }
             }
@@ -60,13 +69,14 @@ public class Calculator : ICalculator
         }
     }
 
+    // Deserializing JSON to Frames
     private Frames[] ProcessRoll(string roll)
     {
-        // TODO Process Rolls from Here, will call calculate score from here
         var frames = JsonSerializer.Deserialize<Frames[]>(roll);
-
         return frames;
     }
+
+    // Publish Result to 'Score Queue'
     private void PublishResult(string result)
     {
         var sendMessageRequest = new SendMessageRequest
@@ -87,7 +97,7 @@ public class Calculator : ICalculator
         }
     }
 
-
+    // Check Strike Function
     private bool IsFrameStrike(Frames frame)
     {
         if (frame.roll1 == MAX_SCORE)
@@ -96,6 +106,8 @@ public class Calculator : ICalculator
         }
         return false;
     }
+
+    // Check Spare Function
     private bool IsFrameSpare(Frames frame)
     {
         if (frame.roll1 + frame.roll2 == MAX_SCORE)
@@ -105,6 +117,7 @@ public class Calculator : ICalculator
         return false;
     }
 
+    // Calculate Score of Frames
     public int CalculateScore(Frames[] frames)
     {
 
@@ -175,7 +188,7 @@ public class Calculator : ICalculator
             if (IsFrameStrike(lastFrame))
             {
                 score += lastFrame.roll2 + lastFrame.roll3;
-                output.Append("[X" + "|" + (lastFrame.roll2 == 10 ? "X" : lastFrame.roll2) + "|" + (lastFrame.roll3 == 10 ? "X" : lastFrame.roll3) + "=>" + score + "]"); 
+                output.Append("[X" + "|" + (lastFrame.roll2 == MAX_SCORE ? "X" : lastFrame.roll2) + "|" + (lastFrame.roll3 == MAX_SCORE ? "X" : lastFrame.roll3) + "=>" + score + "]");
             }
             // Check Spare
             else if (IsFrameSpare(lastFrame))

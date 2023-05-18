@@ -21,15 +21,15 @@ public class Presenter : IPresenter
         });
     }
 
+    // Returning the Score String
     public string GetScore()
     {
         return ScoreString;
     }
 
+    // Presenter Service Reads Message from 'ScoreQueue'
     public void StartPresenterService()
     {
-        // Presenter Listner Service.
-
         var receiveMessageRequest = new ReceiveMessageRequest
         {
             QueueUrl = ScoreQueueUrl,
@@ -42,17 +42,17 @@ public class Presenter : IPresenter
         {
             var latestMessage = receiveMessageResponse.Messages.Last();
             var score = latestMessage.Body;
-            Console.WriteLine($"Presenting score: {score}");
+            Console.WriteLine("Presenting score: " + score);
+
+            // Setting ScoreString with the fetched score
             ScoreString = score.ToString();
 
             sqsClient.DeleteMessageAsync(new DeleteMessageRequest(ScoreQueueUrl, latestMessage.ReceiptHandle)).GetAwaiter().GetResult();
-
-           
         }
         else
         {
-            ScoreString="No new score in the Queue.";
-            
+            ScoreString = "No new score in the Queue.";
+
         }
     }
 }

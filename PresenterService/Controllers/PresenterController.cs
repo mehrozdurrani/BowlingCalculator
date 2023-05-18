@@ -8,6 +8,8 @@ namespace PresenterService.Controllers;
 public class PresenterController : ControllerBase
 {
     private readonly ILogger<PresenterController> _logger;
+
+    // Dependency Injection
     private readonly IPresenter _presenter;
 
     public PresenterController(ILogger<PresenterController> logger, IPresenter presenter)

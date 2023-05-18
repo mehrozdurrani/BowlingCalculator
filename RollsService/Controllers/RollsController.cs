@@ -9,15 +9,10 @@ namespace RollsService.Controllers;
 public class RollsController : ControllerBase
 {
     private readonly ILogger<RollsController> _logger;
+
+    // Dependency Injection
     private readonly IRolls _rolls;
 
-    // Frames for testing
-    //Frames[] frames = new Frames[]
-    //{
-    //new Frames { roll1 = 1, roll2 = 2 },
-    //new Frames { roll1 = 4, roll2 = 5 },
-    //new Frames { roll1 = 7, roll2 = 3 }
-    //};
 
     public RollsController(ILogger<RollsController> logger, IRolls rolls)
     {
@@ -25,15 +20,16 @@ public class RollsController : ControllerBase
         _rolls = rolls;
     }
 
+    // POST function to Post Frames of Rolls
     [HttpPost]
-    public IActionResult PostRolls([FromBody] Frames[] frames)
+    public IActionResult PostRolls([FromBody] Frames[] framesOfRolls)
     {
-        if (frames == null)
+        if (framesOfRolls == null)
         {
             return BadRequest("Invalid Frames data");
         }
         else
-        _rolls.SendRolls(frames);
+        _rolls.SendRolls(framesOfRolls);
 
         return Ok("Frames Recieved Successfully");
     }

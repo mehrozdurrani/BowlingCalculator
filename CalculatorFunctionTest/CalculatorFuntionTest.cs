@@ -7,14 +7,13 @@ namespace CalculatorFunctionTest;
 public class UnitTest1
 {
     [TestMethod]
-    public void TestMethod1()
+    public void Set_Frames_ReturnEqualScore()
     {
         /*
          Testing Strike,Spar, 4|0 thats results 38
          */
 
-
-        //Test1 - Arrange
+        // Arrange
 
         Calculator calculator = new Calculator();
         Frames[] frames = new Frames[]
@@ -25,23 +24,22 @@ public class UnitTest1
         };
         int expected = 38;
 
-
-        //Test2 - Act
+        // Act
 
         int actual = calculator.CalculateScore(frames);
 
-        //Test3 - Assert
+        // Assert
 
         Assert.AreEqual(expected, actual);
     }
     [TestMethod]
-    public void TestMethod2()
+    public void Set_AllFramesStrike_GetMaximumScore()
     {
         /*
         Testing 12 Strikes that results 300
         */
 
-        //Test 2 - Arrange
+        // Arrange
 
         Calculator calculator = new Calculator();
         Frames[] frames = new Frames[]
@@ -60,11 +58,11 @@ public class UnitTest1
         int expected = 300;
 
 
-        //Test 2 - Act
+        // Act
 
         int actual = calculator.CalculateScore(frames);
 
-        //Test 2 - Assert
+        // Assert
 
         Assert.AreEqual(expected, actual);
 

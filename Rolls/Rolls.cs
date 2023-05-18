@@ -8,22 +8,27 @@ using System.Text.Json;
 namespace RollsFunctions;
 public class Rolls : IRolls
 {
-    private const string QueueUrl = "http://localhost:4566/000000000000/RollsQueue"; // Replace with your LocalStack SQS queue URL
+    // LocalStack SQS queue URL
+    private const string QueueUrl = "http://localhost:4566/000000000000/RollsQueue"; 
     private readonly AmazonSQSClient sqsClient;
 
     public Rolls()
     {
         sqsClient = new AmazonSQSClient(new AmazonSQSConfig
         {
-            ServiceURL = "http://localhost:4566" // Replace with your LocalStack SQS service URL
+            // LocalStack SQS service URL
+            ServiceURL = "http://localhost:4566" 
         });
     }
 
+    // Publishing Frame of Rolls to 'RollsQueue"
     public void SendRolls(Frames[] framesOfRolls)
     {
         var sendMessageRequest = new SendMessageRequest
         {
             QueueUrl = QueueUrl,
+
+            // Serializing 'Frames of Rolls' of type 'Frames' to JSON
             MessageBody = JsonSerializer.Serialize(framesOfRolls)
         };
 

@@ -11,6 +11,7 @@ namespace CalculatorFunctions;
 public class Calculator : ICalculator
 {
     const int TOTAL_FRAMES = 10;
+    const int MAX_SCORE = 10;
 
     private const string RollQueueUrl = "http://localhost:4566/000000000000/RollsQueue";
     private const string ScoreQueueUrl = "http://localhost:4566/000000000000/ScoreQueue";
@@ -89,7 +90,7 @@ public class Calculator : ICalculator
 
     private bool IsFrameStrike(Frames frame)
     {
-        if (frame.roll1 == 10)
+        if (frame.roll1 == MAX_SCORE)
         {
             return true;
         }
@@ -97,7 +98,7 @@ public class Calculator : ICalculator
     }
     private bool IsFrameSpare(Frames frame)
     {
-        if (frame.roll1 + frame.roll2 == 10)
+        if (frame.roll1 + frame.roll2 == MAX_SCORE)
         {
             return true;
         }
@@ -116,7 +117,7 @@ public class Calculator : ICalculator
             // Check Strike
             if (IsFrameStrike(frames[i]))
             {
-                score += 10;
+                score += MAX_SCORE;
 
                 // Ensure there is a next frame
                 if (i + 1 < frames.Length)
@@ -134,7 +135,7 @@ public class Calculator : ICalculator
                         else
                         {
                             // All frames are strikes, add 10 as bonus
-                            score += 10;
+                            score += MAX_SCORE;
                         }
                     }
                     else
@@ -147,7 +148,7 @@ public class Calculator : ICalculator
             // Check Spare
             else if (IsFrameSpare(frames[i]))
             {
-                score += 10;
+                score += MAX_SCORE;
 
                 // Ensure there is a next frame
                 if (i + 1 < frames.Length)
